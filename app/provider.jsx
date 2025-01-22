@@ -2,7 +2,7 @@
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import Header from "@/components/custom/Header";
 
-const Provider = ({ childrin }) => {
+const Provider = ({ children }) => {
   return (
     <NextThemesProvider
       attribute="class"
@@ -11,7 +11,7 @@ const Provider = ({ childrin }) => {
       disableTransitionOnChange
     >
       <Header />
-      <div>{childrin}</div>
+      <div>{children}</div>
     </NextThemesProvider>
   );
 };
