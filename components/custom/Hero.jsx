@@ -5,6 +5,9 @@ import { SquareChevronRight, Link } from "lucide-react";
 import { MassageContext } from "@/context/MassageContext";
 import SignIn from "./SignIn";
 import { UserContext } from "@/context/UserContext";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useRouter } from "next/navigation";
 
 const dummydata = [
   {
@@ -29,16 +32,41 @@ const Hero = () => {
   const { massage, setMassage } = useContext(MassageContext);
   const [openDialog, setOpenDialog] = useState(false);
   const { userDetail, setUserDetail } = useContext(UserContext);
+  const createWorkSpace = useMutation(api.workspace.createWorkSpace);
+  const router = useRouter();
 
-  const onGenerate = (input) => {
-    if (!userDetail?.name) {
-      setOpenDialog(true);
-      return;
+  const onGenerate = async (input) => {
+    try {
+      console.log("🚀 onGenerate function is running!");
+
+      if (!userDetail?.name) {
+        setOpenDialog(true);
+        console.log("⚠️ User does not have a name. Opening dialog...");
+        return;
+      }
+
+      const msg = {
+        role: "user",
+        content: input,
+      };
+
+      console.log("✅ Message created:", msg);
+
+      console.log("📝 Data being sent to Convex:", {
+        users: [userDetail._id],
+        messages: [msg],
+      });
+
+      const workspaceId = await createWorkSpace({
+        users: [userDetail._id],
+        messages: [msg],
+      });
+
+      console.log("🎉 Workspace created with ID:", workspaceId);
+      router.push("/workspace/" + workspaceId);
+    } catch (error) {
+      console.error("❌ Error in onGenerate:", error);
     }
-    setMassage({
-      role: "role",
-      content: input,
-    });
   };
 
   return (
