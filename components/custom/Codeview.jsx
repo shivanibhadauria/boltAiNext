@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useContext } from "react";
+import { api } from "@/convex/_generated/api";
 import { MassageContext } from "@/context/MassageContext";
 import {
   SandpackFileExplorer,
@@ -16,16 +17,27 @@ const Codeview = () => {
   const [files, setFiles] = useState({});
   const { massage, setMassage } = useContext(MassageContext);
 
+
+  useEffect(() => {
+    if (massage && massage.length > 0) {
+     
+      const role = massage[massage.length - 1]?.role;
+      if (role === "user") {
+        console.log("Calling GenerateAicode...");
+        GenerateAicode(); 
+      }
+    }
+  }, [massage]); // Dependency array
   // ✅ Corrected function placement
   const GenerateAicode = async () => {
     try {
       if (!massage || massage.length === 0) return;
 
-      const CODE_PROMPT = "Write optimized, clean React code.";
+     
       const lastMessage = massage[massage.length - 1]?.content;
       if (!lastMessage) return;
-
-      const promptText = lastMessage + " " + CODE_PROMPT;
+      
+      const promptText = lastMessage + " " + prompt.CODE_PROMPT;
       console.log("Sending request with prompt:", promptText);
 
       const result = await axios.post("/api/ai-code", {
@@ -33,24 +45,16 @@ const Codeview = () => {
       });
 
       console.log("API Response:", result.data);
-      if (result.data?.files) {
-        setFiles(result.data.files);
+      if (result.data) {
+        setFiles(result.data);
       }
+      console.log(result)
     } catch (error) {
       console.error("Error in GenerateAicode:", error);
     }
   };
 
-  useEffect(() => {
-    if (massage && massage.length > 0) {
-      console.log("useEffect triggered, massage:", massage);
-      const role = massage[massage.length - 1]?.role;
-      if (role === "user") {
-        console.log("Calling GenerateAicode...");
-        GenerateAicode(); // ❌ Wrong: This function is not defined yet!
-      }
-    }
-  }, [massage]); // Dependency array
+ 
 
   return (
     <div>
@@ -78,6 +82,8 @@ const Codeview = () => {
       <SandpackProvider
         template="react"
         theme="dark"
+        files={files}
+        key={JSON.stringify(files)}
         options={{ externalResources: ["https://cdn.tailwindcss.com"] }}
       >
         <SandpackLayout>
