@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader , DialogTitle } from "@/components/ui/dialog";
 import { UserContext } from "@/context/UserContext";
 
 import { useGoogleLogin } from "@react-oauth/google";
@@ -45,10 +45,10 @@ const SignIn = ({ openDialog, closeDialog }) => {
       <DialogContent>
         <DialogHeader>
           <div className=" flex items-center justify-center flex-col gap-4 ">
-            <h1 className=" font-bold text-2xl">Continue with bolt.New 2.0</h1>
-            <p className=" text-white/60 font-sm text-wrap ">
+            <DialogTitle className=" font-bold text-2xl">Continue with bolt.New 2.0</DialogTitle>
+            <h1 className=" text-white/60 font-sm text-wrap ">
               To use Bolt you must log into an existing account or create one.
-            </p>
+            </h1>
             <button
               onClick={googleLogin}
               className=" bg-blue-500 rounded-lg p-2 cursor-pointer "

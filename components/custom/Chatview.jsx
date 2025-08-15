@@ -1,16 +1,16 @@
 "use client";
 import { MassageContext } from "@/context/MassageContext";
 import { api } from "@/convex/_generated/api";
-import { useConvex } from "convex/react";
+import { useConvex, useMutation } from "convex/react";
 import { useParams } from "next/navigation";
 import React, { use, useContext, useEffect, useState } from "react";
 import { SquareChevronRight, Link, LoaderCircle } from "lucide-react";
-import link from "next/link";
 import Image from "next/image";
 import { UserContext } from "@/context/UserContext";
 import axios from "axios";
-
+import ReactMarkdown from "react-markdown";
 const Chatview = () => {
+  const UpdateMessage = useMutation(api.workspace.updateMessage);
   const { id } = useParams();
   const convex = useConvex();
   const { userDetail, setUserDetail } = useContext(UserContext);
@@ -37,20 +37,26 @@ const Chatview = () => {
   const getApiresp = async () => {
     setLoading(true);
     const PROMPT = JSON.stringify(massage) + prompt.CHAT_PROMPT;
-    const result = await axios.post("/api/ai-chat", { prompt: PROMPT });
+    const result = await axios.post("/api/ai-chat", {
+      prompt: PROMPT,
+    });
 
     console.log(
       "🚀 ~ file: Chatview.jsx:94 ~ getApiresp ~ result",
       result.data.result
     );
 
-    setMassage((prev) => [
-      ...prev,
-      {
-        role: "ai",
-        content: result.data.result,
-      },
-    ]);
+    const aiRes = {
+      role: "ai",
+      content: result.data.result,
+    };
+
+    setMassage((prev) => [...prev, aiRes]);
+
+    await UpdateMessage({
+      messages: [...massage, aiRes],
+      workspaceId: id,
+    });
 
     setLoading(false);
   };
@@ -75,6 +81,7 @@ const Chatview = () => {
         content: input,
       },
     ]);
+    setUserInput("");
   };
 
   return (
@@ -93,8 +100,8 @@ const Chatview = () => {
                 />
               )}
             </div>
-            <div className=" bg-gray-900 p-2 rounded-xl m-2  size-sm ">
-              <h1 className="text-sm h-auto w-full ">{msg.content}</h1>
+            <div className=" bg-gray-900 p-2 rounded-xl m-2  size-sm flex flex-col gap-4 ">
+              <ReactMarkdown>{msg.content}</ReactMarkdown>
             </div>
           </div>
         ))}
@@ -118,6 +125,7 @@ const Chatview = () => {
         )}
 
         <textarea
+          value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
           className="  w-full h-full  p-4 bg-transparent border-white/20 border-2 rounded-xl "
           placeholder="What do you want to build?"
