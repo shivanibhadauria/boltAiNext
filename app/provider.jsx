@@ -27,18 +27,25 @@ const Provider = ({ children }) => {
   // Function to check if the user is authenticated
   const isAuthenticated = async () => {
     if (typeof window !== "undefined") {
-      // Check if we're on the client-side (window is available only in the browser)
-      const user = JSON.parse(localStorage.getItem("user")); // Retrieve user details from localStorage
-      console.log("User from localStorage:", user); // Debug log
+     
+      const storedUser = localStorage.getItem("user");
+    
+      if (!storedUser) {
+        return;
+      }
+      const user = JSON.parse(storedUser); 
+     if(!user?.email){
+        return;
+     }
 
-      // Query Convex to fetch user details from the backend using the email
+     
       const result = await convex.query(api.users.GetUser, {
-        email: user?.email, // Pass email to the query to get the user data
+        email: user?.email,
       });
 
-      // Set the user details in the state
+   
       setUserDetail(result);
-      console.log("Convex Query Result:", result); // Debug log
+      console.log("Convex Query Result:", result); 
     }
   };
 
