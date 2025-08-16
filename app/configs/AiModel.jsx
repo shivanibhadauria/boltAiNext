@@ -28,7 +28,7 @@ const CodegenerationConfig = {
 };
 
 export const chatSession = model.startChat({
-  generationConfig,
+  generationConfig : generationConfig,
   history: [],
 });
 

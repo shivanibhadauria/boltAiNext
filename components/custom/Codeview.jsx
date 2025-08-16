@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useContext } from "react";
-import { api } from "@/convex/_generated/api";
+import Prompt, { CODE_PROMPT } from "@/app/data/prompt";
+// import { api } from "@/convex/_generated/api";
 import { MassageContext } from "@/context/MassageContext";
 import {
   SandpackFileExplorer,
@@ -11,50 +12,40 @@ import {
   SandpackPreview,
 } from "@codesandbox/sandpack-react";
 import axios from "axios";
+import Lookup from "@/app/data/Lookup";
 
 const Codeview = () => {
   const [active, setActive] = useState("code");
-  const [files, setFiles] = useState({});
-  const { massage, setMassage } = useContext(MassageContext);
+  const {massage, setMassage} = useContext(MassageContext);
+  const [ files , setFiles ] = useState(Lookup?.DEFAULT_FILE);
 
 
   useEffect(() => {
-    if (massage && massage.length > 0) {
-     
-      const role = massage[massage.length - 1]?.role;
+    if (massage?.length > 0) {
+      const role = massage[massage.length - 1].role;
       if (role === "user") {
-        console.log("Calling GenerateAicode...");
-        GenerateAicode(); 
+        GenAiCode();
       }
     }
-  }, [massage]); // Dependency array
-  // ✅ Corrected function placement
-  const GenerateAicode = async () => {
-    try {
-      if (!massage || massage.length === 0) return;
-
-     
-      const lastMessage = massage[massage.length - 1]?.content;
-      if (!lastMessage) return;
-      
-      const promptText = lastMessage + " " + prompt.CODE_PROMPT;
-      console.log("Sending request with prompt:", promptText);
-
-      const result = await axios.post("/api/ai-code", {
-        prompt: promptText,
-      });
-
-      console.log("API Response:", result.data);
-      if (result.data) {
-        setFiles(result.data);
-      }
-      console.log(result)
-    } catch (error) {
-      console.error("Error in GenerateAicode:", error);
-    }
-  };
+  }, [massage]);
 
  
+
+const GenAiCode = async () => {
+  const PROMPT  = massage + " " + Prompt.CODE_PROMPT;
+ const result = await axios.post("/api/ai-code" , {
+  prompt: PROMPT,
+ });
+  console.log("Raw AI Response:",  result.data);
+  const AIresp =  result.data;
+const mergedFiles = { ...Lookup.DEFAULT_FILE, ...AIresp?.files };
+setFiles(mergedFiles);
+  
+}
+
+
+ 
+
 
   return (
     <div>
@@ -80,10 +71,16 @@ const Codeview = () => {
       </div>
 
       <SandpackProvider
+      files={files}
         template="react"
         theme="dark"
-        files={files}
-        key={JSON.stringify(files)}
+        customSetup={{
+          dependencies:{
+            ...Lookup.DEPENDANCY,
+          }
+        }}
+       
+        
         options={{ externalResources: ["https://cdn.tailwindcss.com"] }}
       >
         <SandpackLayout>
