@@ -9,6 +9,7 @@ import Image from "next/image";
 import { UserContext } from "@/context/UserContext";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
+import Prompt from "@/app/data/prompt";
 
 const Chatview = () => {
   const UpdateMessage = useMutation(api.workspace.updateMessage);
@@ -33,7 +34,11 @@ const Chatview = () => {
 
   const getApiresp = async () => {
     setLoading(true);
-    const PROMPT = JSON.stringify(massage) + prompt.CHAT_PROMPT;
+    // const PROMPT = JSON.stringify(massage) + prompt.CHAT_PROMPT;
+
+    const lastUserMessage = massage?.[massage.length - 1]?.content || "";
+const PROMPT = lastUserMessage + "\n\n" + Prompt.CHAT_PROMPT;
+
     const result = await axios.post("/api/ai-chat", {
       prompt: PROMPT,
     });

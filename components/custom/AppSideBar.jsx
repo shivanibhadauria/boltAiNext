@@ -1,0 +1,30 @@
+import React from 'react'
+import Image from "next/image";
+import {
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarGroup,
+    SidebarHeader,
+  } from "@/components/ui/sidebar"
+import { Button } from '../ui/button';
+import { MessageCircleCode } from 'lucide-react';
+import { WorkspaceHistory } from './WorkspaceHistory';
+
+export const AppSideBar = () => {
+  return (
+    <Sidebar>
+      <SidebarHeader  className="p-5" >
+      <Image src={"/logo.png"} alt="logo " width={40} height={40} />
+         </SidebarHeader>
+      <SidebarContent className="p-5" >
+        <Button> <MessageCircleCode/> Start New Chat </Button>
+        <SidebarGroup >
+            <WorkspaceHistory/>
+
+        </SidebarGroup >
+      </SidebarContent>
+      <SidebarFooter />
+    </Sidebar>
+  )
+}

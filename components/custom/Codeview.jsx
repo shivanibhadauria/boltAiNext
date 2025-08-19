@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState, useEffect, useContext } from "react";
-import Prompt, { CODE_PROMPT } from "@/app/data/prompt";
-// import { api } from "@/convex/_generated/api";
+import Prompt from "@/app/data/prompt";
+import { api } from "@/convex/_generated/api";
 import { MassageContext } from "@/context/MassageContext";
+import { LoaderCircle } from "lucide-react";
 import {
   SandpackFileExplorer,
   SandpackProvider,
@@ -13,12 +14,31 @@ import {
 } from "@codesandbox/sandpack-react";
 import axios from "axios";
 import Lookup from "@/app/data/Lookup";
+import { useConvex, useMutation } from "convex/react";
+import { useParams } from "next/navigation";
 
 const Codeview = () => {
+  const {id} = useParams();
   const [active, setActive] = useState("code");
   const {massage, setMassage} = useContext(MassageContext);
   const [ files , setFiles ] = useState(Lookup?.DEFAULT_FILE);
+  const UpdateFiles  = useMutation(api.workspace.updateFiles);
+  const convex = useConvex();
+  const [loading, setLoading] = useState(false);
 
+
+  useEffect(() => {
+    id&&getFiles();
+  }, [id]);
+  const getFiles = async () => {
+    setLoading(true);
+   const result = await convex.query(api.workspace.Getworkspace, {
+    workspaceId: id,
+   });
+   const mergedFiles = {...Lookup.DEFAULT_FILE,...result?.UpdateFiles};
+   setFiles(mergedFiles);
+   setLoading(false);
+  }
 
   useEffect(() => {
     if (massage?.length > 0) {
@@ -32,23 +52,29 @@ const Codeview = () => {
  
 
 const GenAiCode = async () => {
-  const PROMPT  = massage + " " + Prompt.CODE_PROMPT;
+  // const PROMPT = (massage || "") + " " + Prompt.CODE_PROMPT;
+  setLoading(true);
+
+  const lastUserMessage = massage?.[massage.length - 1]?.content || "";
+const PROMPT = lastUserMessage + "\n\n" + Prompt.CODE_PROMPT;
  const result = await axios.post("/api/ai-code" , {
   prompt: PROMPT,
  });
   console.log("Raw AI Response:",  result.data);
   const AIresp =  result.data;
-const mergedFiles = { ...Lookup.DEFAULT_FILE, ...AIresp?.files };
+const mergedFiles = { ...Lookup.DEFAULT_FILE, ...AIresp?.files};
 setFiles(mergedFiles);
+await UpdateFiles( {
+  workspaceId: id,
+  files: AIresp?.files,
+});
+
+setLoading(false);
   
 }
 
-
- 
-
-
   return (
-    <div>
+    <div className=" relative " >
       <div className="w-full bg-[#181818] flex gap-2 h-16 items-center">
         <div className="bg-slate-900 flex gap-4 ml-4 p-2 rounded-full">
           <h1
@@ -71,6 +97,7 @@ setFiles(mergedFiles);
       </div>
 
       <SandpackProvider
+       className=" relative "
       files={files}
         template="react"
         theme="dark"
@@ -96,7 +123,16 @@ setFiles(mergedFiles);
           )}
         </SandpackLayout>
       </SandpackProvider>
+
+     {loading&&<div className="bg-gray-900 opacity-60 top-0 absolute h-full w-full flex items-center justify-center">
+          
+              <LoaderCircle className="animate-spin" />
+              <h2>Generating response....</h2>
+          
+          </div>}
+     
     </div>
+    
   );
 };
 
