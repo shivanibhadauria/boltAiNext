@@ -10,6 +10,7 @@ import { UserContext } from "@/context/UserContext";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import Prompt from "@/app/data/prompt";
+import { useSidebar } from "../ui/sidebar";
 
 const Chatview = () => {
   const UpdateMessage = useMutation(api.workspace.updateMessage);
@@ -18,6 +19,7 @@ const Chatview = () => {
   const { userDetail } = useContext(UserContext);
   const [userInput, setUserInput] = useState();
   const [loading, setLoading] = useState(false);
+  const { toggleSidebar } = useSidebar();
 
   const { massage, setMassage } = useContext(MassageContext);
 
@@ -80,10 +82,10 @@ const PROMPT = lastUserMessage + "\n\n" + Prompt.CHAT_PROMPT;
 
   return (
     <div className="flex flex-col h-[600px]">
-      <div className="flex-1 overflow-y-scroll scrollbar-hide">
+      <div className="flex-1 overflow-y-scroll scrollbar-hide  ">
         {massage?.map((msg, index) => (
-          <div key={index} className="flex items-center px-4">
-            <div>
+          <div key={index} className="flex items-center px-4 text-wrap  ">
+            <div className="bg-pink-50" >
               {msg?.role === "user" && (
                 <Image
                   className="rounded-full"
@@ -94,7 +96,7 @@ const PROMPT = lastUserMessage + "\n\n" + Prompt.CHAT_PROMPT;
                 />
               )}
             </div>
-            <div className="bg-gray-900 p-2 rounded-xl m-2 size-sm flex flex-col gap-4">
+            <div className="bg-gray-900 p-4 rounded-xl m-2 size-sm flex flex-col gap-4 overflow-hidden  ">
               <ReactMarkdown>{msg.content}</ReactMarkdown>
             </div>
           </div>
@@ -110,7 +112,10 @@ const PROMPT = lastUserMessage + "\n\n" + Prompt.CHAT_PROMPT;
         )}
       </div>
 
-      <div className="relative mt-6 bg-white/5 rounded-xl">
+ <div className=" flex gap-2 items-end " >
+
+ { userDetail&& <Image onClick={toggleSidebar} src={userDetail?.picture} alt="user" width={30} height={30} className=" rounded-full cursor-pointer "  ></Image>}
+      <div className="relative mt-6 bg-white/5 rounded-xl w-full">
         {userInput && (
           <SquareChevronRight
             onClick={() => onGenerate(userInput)}
@@ -126,7 +131,7 @@ const PROMPT = lastUserMessage + "\n\n" + Prompt.CHAT_PROMPT;
         />
 
         <Link className="absolute bottom-2 left-2 hover:text-blue-400 cursor-pointer" />
-      </div>
+      </div></div>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import React from "react";
 
 const workspace = () => {
   return (
-    <>
+    <div className="p-3 pr-5 mt-3">
       <div className=" grid grid-cols-3 gap-10  ">
         <Chatview />
 
@@ -12,7 +12,7 @@ const workspace = () => {
           <Codeview />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

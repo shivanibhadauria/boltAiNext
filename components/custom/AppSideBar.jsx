@@ -10,6 +10,7 @@ import {
 import { Button } from '../ui/button';
 import { MessageCircleCode } from 'lucide-react';
 import { WorkspaceHistory } from './WorkspaceHistory';
+import SideBarFooter from './SideBarFooter';
 
 export const AppSideBar = () => {
   return (
@@ -24,7 +25,9 @@ export const AppSideBar = () => {
 
         </SidebarGroup >
       </SidebarContent>
-      <SidebarFooter />
+      <SideBarFooter >
+      </SideBarFooter >
+
     </Sidebar>
   )
 }

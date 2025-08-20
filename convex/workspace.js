@@ -1,3 +1,4 @@
+import workspace from "@/app/(main)/workspace/[id]/page";
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
@@ -47,8 +48,27 @@ export const updateFiles = mutation({
 
   handler: async (ctx, args) => {
     const result = await ctx.db.patch(args.workspaceId, {
-      filesData: args.files,
+      fileData: args.files,
     });
     return result;
   },
 });
+
+export const GetAllWorkspace = query({
+  args: {
+    userId: v.id("users"),
+  },
+  handler: async (ctx, args) => {
+
+    const all = await ctx.db.query("workspace").collect();
+   
+
+    const result = all.filter(workspace => workspace.users.includes(args.userId))
+      
+
+    console.log("🔍 Filtered workspaces:", result);
+
+    return result;
+
+  },
+})
