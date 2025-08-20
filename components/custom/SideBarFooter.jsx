@@ -1,9 +1,10 @@
 import React from 'react'
-import { Settings , MessageCircleQuestionMark  , Wallet , LogOut  } from 'lucide-react';
+import { Settings , MessageCircleQuestion  , Wallet , LogOut  } from 'lucide-react';
 
 import { Button } from "../ui/button";
 
 const SideBarFooter = () => {
+   
 
     const options =[
         {
@@ -12,7 +13,7 @@ const SideBarFooter = () => {
         },
         {
             name: 'Help Center',
-            icon:MessageCircleQuestionMark,
+            icon:MessageCircleQuestion,
         },
         {
             name: 'My Subscription',
@@ -25,15 +26,16 @@ const SideBarFooter = () => {
     ]
   return (
     <div className='p-5 mb-10'>
-        {options.map((option, index) =>
-        (
-            <Button variant='ghost' className="w-full flex justify-start" key={index} >
+        {options.map((option, index) =>{
+         const Icon = option.icon; 
+         return (
+            <Button variant='ghost' className="w-full flex justify-start my-3" key={index} >
 
 
-                <icon/>
+                <Icon/>
                 {option.name}
             </Button>
-        )
+        )}
         )}
 
     </div>
