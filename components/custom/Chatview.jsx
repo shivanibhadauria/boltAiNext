@@ -12,6 +12,11 @@ import ReactMarkdown from "react-markdown";
 import Prompt from "@/app/data/prompt";
 import { useSidebar } from "../ui/sidebar";
 
+export const countTokens = (inputText) => {
+  return inputText.trim().split(/\s+/).filter(word => word).length;
+ 
+};
+
 
 const Chatview = () => {
   const UpdateMessage = useMutation(api.workspace.updateMessage);
@@ -51,12 +56,15 @@ const PROMPT = lastUserMessage + "\n\n" + Prompt.CHAT_PROMPT;
       content: result.data.result,
     };
 
-    setMassage((prev) => [...prev, aiRes]);
+    
 
     await UpdateMessage({
       messages: [...massage, aiRes],
       workspaceId: id,
     });
+
+    setMassage((prev) => [...prev, aiRes]);
+    const token = countTokens(JSON.stringify(aiRes));
 
     setLoading(false);
   };
