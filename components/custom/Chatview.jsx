@@ -89,7 +89,7 @@ const PROMPT = lastUserMessage + "\n\n" + Prompt.CHAT_PROMPT;
             <div className="bg-pink-50 rounded-full" >
               {msg?.role === "user" && (
                 <Image
-                  className="rounded-full"
+                  className="rounded-full "
                   src={userDetail?.picture}
                   alt="userImage"
                   width={40}
