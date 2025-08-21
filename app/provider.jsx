@@ -69,7 +69,7 @@ const Provider = ({ children }) => {
             disableTransitionOnChange // Disable theme transition on change for smoother switching
           >
             <Header /> {/* Render the header component */}
-            <SidebarProvider defaultOpen={true} >
+            <SidebarProvider defaultOpen={false} >
               <AppSideBar/>
 
             <div>{children}</div>     </SidebarProvider>
