@@ -43,7 +43,7 @@ export const GetUser = query({
   },
 });
 
-export const UpdateToken  = mutation({
+export const UpdateTokens = mutation({
   args: {
     token: v.number(),
     userId : v.id("users")
