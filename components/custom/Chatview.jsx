@@ -12,6 +12,7 @@ import ReactMarkdown from "react-markdown";
 import Prompt from "@/app/data/prompt";
 import { useSidebar } from "../ui/sidebar";
 
+
 export const countTokens = (inputText) => {
   return inputText.trim().split(/\s+/).filter(word => word).length;
  
@@ -26,6 +27,7 @@ const Chatview = () => {
   const [userInput, setUserInput] = useState();
   const [loading, setLoading] = useState(false);
   const { toggleSidebar } = useSidebar();
+  const UpdateTokens  = useMutation(api.users.UpdateTokens );
 
   const { massage, setMassage } = useContext(MassageContext);
 
@@ -64,8 +66,14 @@ const PROMPT = lastUserMessage + "\n\n" + Prompt.CHAT_PROMPT;
     });
 
     setMassage((prev) => [...prev, aiRes]);
-    const token = countTokens(JSON.stringify(aiRes));
+    const token = Number(userDetail?.token) - Number(countTokens(JSON.stringify(aiRes)));
 
+    await UpdateTokens ({
+     userId: userDetail?._id,
+      token:  token,
+     
+    });
+   
     setLoading(false);
   };
 
