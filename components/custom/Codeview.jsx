@@ -16,6 +16,8 @@ import axios from "axios";
 import Lookup from "@/app/data/Lookup";
 import { useConvex, useMutation } from "convex/react";
 import { useParams } from "next/navigation";
+import { countTokens } from "./Chatview";
+import {UserContext} from "@/context/UserContext";
 
 const Codeview = () => {
   const {id} = useParams();
@@ -23,8 +25,11 @@ const Codeview = () => {
   const {massage, setMassage} = useContext(MassageContext);
   const [ files , setFiles ] = useState(Lookup?.DEFAULT_FILE);
   const UpdateFiles  = useMutation(api.workspace.updateFiles);
+  const { userDetail } = useContext(UserContext);
+
   const convex = useConvex();
   const [loading, setLoading] = useState(false);
+  const UpdateTokens  = useMutation(api.users.UpdateTokens );
 
 
   useEffect(() => {
@@ -68,6 +73,14 @@ await UpdateFiles( {
   workspaceId: id,
   files: AIresp?.files,
 });
+
+const token = Number(userDetail?.token) - Number(countTokens(JSON.stringify(AIresp)));
+
+    await UpdateTokens ({
+     userId: userDetail?._id,
+      token:  token,
+     
+    });
 
 setLoading(false);
   
