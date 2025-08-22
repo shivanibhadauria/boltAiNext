@@ -13,6 +13,7 @@ import { GetUser } from "@/convex/users"; // Function to fetch user data from Co
 import { AppSideBar } from "@/components/custom/AppSideBar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { ActionContext } from "@/context/ActionContext";
+import { useRouter } from "next/navigation";
 
 
 const Provider = ({ children }) => {
@@ -20,6 +21,7 @@ const Provider = ({ children }) => {
   const [massage, setMassage] = useState([]);
   const [userDetail, setUserDetail] = useState();
   const [action , setAction] = useState();
+  const router = useRouter();
 
   // Convex hook to interact with the Convex backend
   const convex = useConvex();
@@ -36,10 +38,12 @@ const Provider = ({ children }) => {
       const storedUser = localStorage.getItem("user");
     
       if (!storedUser) {
+        router.push('/');
         return;
       }
       const user = JSON.parse(storedUser); 
      if(!user?.email){
+
         return;
      }
 
