@@ -18,6 +18,7 @@ import { useConvex, useMutation } from "convex/react";
 import { useParams } from "next/navigation";
 import { countTokens } from "./Chatview";
 import {UserContext} from "@/context/UserContext";
+import SandpackPreviewClient from "./SandpackPreviewClient";
 
 const Codeview = () => {
   const {id} = useParams();
@@ -25,7 +26,7 @@ const Codeview = () => {
   const {massage, setMassage} = useContext(MassageContext);
   const [ files , setFiles ] = useState(Lookup?.DEFAULT_FILE);
   const UpdateFiles  = useMutation(api.workspace.updateFiles);
-  const { userDetail } = useContext(UserContext);
+  const { userDetail , setUserDetail } = useContext(UserContext);
 
   const convex = useConvex();
   const [loading, setLoading] = useState(false);
@@ -82,6 +83,13 @@ const token = Number(userDetail?.token) - Number(countTokens(JSON.stringify(AIre
      
     });
 
+    setUserDetail(
+      prev=> ({
+        ...prev,
+        token: token,
+      })
+    );
+
 setLoading(false);
   
 }
@@ -131,7 +139,7 @@ setLoading(false);
             </>
           ) : (
             <>
-              <SandpackPreview style={{ height: "80vh" }} showNavigator />
+              <SandpackPreviewClient />
             </>
           )}
         </SandpackLayout>

@@ -11,6 +11,7 @@ import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import Prompt from "@/app/data/prompt";
 import { useSidebar } from "../ui/sidebar";
+import { toast } from "sonner";
 
 
 export const countTokens = (inputText) => {
@@ -23,7 +24,7 @@ const Chatview = () => {
   const UpdateMessage = useMutation(api.workspace.updateMessage);
   const { id } = useParams();
   const convex = useConvex();
-  const { userDetail } = useContext(UserContext);
+  const { userDetail , setUserDetail } = useContext(UserContext);
   const [userInput, setUserInput] = useState();
   const [loading, setLoading] = useState(false);
   const { toggleSidebar } = useSidebar();
@@ -68,6 +69,15 @@ const PROMPT = lastUserMessage + "\n\n" + Prompt.CHAT_PROMPT;
     setMassage((prev) => [...prev, aiRes]);
     const token = Number(userDetail?.token) - Number(countTokens(JSON.stringify(aiRes)));
 
+    setUserDetail(
+      prev=> ({
+        ...prev,
+        token: token,
+      })
+
+      
+    )
+
     await UpdateTokens ({
      userId: userDetail?._id,
       token:  token,
@@ -87,6 +97,11 @@ const PROMPT = lastUserMessage + "\n\n" + Prompt.CHAT_PROMPT;
   }, [massage]);
 
   const onGenerate = (input) => {
+
+    if (userDetail?.token < 100) {
+      toast('you dont have enough token!')
+      return;
+    }
     setMassage((prev) => [
       ...prev,
       {

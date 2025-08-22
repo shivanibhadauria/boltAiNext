@@ -68,11 +68,15 @@ const Provider = ({ children }) => {
             enableSystem // Allow the system's theme preference to be used
             disableTransitionOnChange // Disable theme transition on change for smoother switching
           >
-            <Header /> {/* Render the header component */}
             <SidebarProvider defaultOpen={false} >
-              <AppSideBar/>
-
-            <div>{children}</div>     </SidebarProvider>
+    <div className="flex flex-col">
+            <Header /> 
+            <div
+            className="flex " > <AppSideBar />
+            <main className="flex-1 p-4">{children}</main></div>
+      
+     
+    </div>     </SidebarProvider>
 
           </NextThemesProvider>
         </MassageContext.Provider>

@@ -44,6 +44,10 @@ const Hero = () => {
         console.log("⚠️ User does not have a name. Opening dialog...");
         return;
       }
+      if (userDetail?.token < 100) {
+        toast('you dont have enough token!')
+        return;
+      }
 
       const msg = {
         role: "user",

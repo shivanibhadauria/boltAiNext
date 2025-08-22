@@ -1,3 +1,4 @@
+import { Toaster } from "sonner";
 import ConvexClientProvider from "./ConvexClientProvider";
 import "./globals.css";
 import Provider from "./provider";
@@ -12,7 +13,9 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning>
       <body>
         <ConvexClientProvider>
-          <Provider>{children}</Provider>
+          <Provider>{children}
+            <Toaster />
+          </Provider>
         </ConvexClientProvider>
       </body>
     </html>

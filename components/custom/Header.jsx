@@ -3,8 +3,12 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { UserContext } from "@/context/UserContext";
 import { useContext } from "react";
+import { useSidebar } from "../ui/sidebar";
+import { Download , Rocket  } from 'lucide-react';
 const Header = () => {
   const { userDetail, setUserDetail } = useContext(UserContext);
+  const { toggleSidebar } = useSidebar();
+
   return (
     <div className="flex items-center justify-between p-4">
       <Image src={"/logo.png"} alt="logo " width={40} height={40} />
@@ -13,8 +17,19 @@ const Header = () => {
         <div className=" flex  gap-4 ">
           <Button variant="ghost">Sign In</Button>
           <Button className=" text-white bg-blue-500 ">Get Started</Button>
+         
         </div>
       )}
+      <div className=" flex gap-2 " >
+        <Button> {<Download/>} Export</Button>
+        <Button variant='outline' >  {<Rocket/>} Deploy</Button>
+     
+
+{ userDetail&& <Image onClick={toggleSidebar}  src={userDetail?.picture} alt="user" width={30} height={30} className=" rounded-full cursor-pointer "  ></Image>}
+
+
+      </div>
+
     </div>
   );
 };
