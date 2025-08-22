@@ -139,7 +139,7 @@ setLoading(false);
             </>
           ) : (
             <>
-              <SandpackPreviewClient />
+              <SandpackPreviewClient/>
             </>
           )}
         </SandpackLayout>
