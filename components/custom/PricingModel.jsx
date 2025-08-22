@@ -1,6 +1,5 @@
 import Lookup from '@/app/data/Lookup'
 import React , {useState} from 'react'
-import {Button} from '@/components/ui/Button'
 import {PayPalButtons} from '@paypal/react-paypal-js'
 import { useContext } from'react';
 import { UserContext } from '@/context/UserContext';

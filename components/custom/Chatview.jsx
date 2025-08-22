@@ -9,7 +9,6 @@ import Image from "next/image";
 import { UserContext } from "@/context/UserContext";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
-import Prompt from "@/app/data/prompt";
 import { useSidebar } from "../ui/sidebar";
 import { toast } from "sonner";
 

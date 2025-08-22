@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useContext } from "react";
-import Prompt from "@/app/data/prompt";
 import { api } from "@/convex/_generated/api";
 import { MassageContext } from "@/context/MassageContext";
 import { LoaderCircle } from "lucide-react";
