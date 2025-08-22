@@ -23,9 +23,12 @@ const GetSandpackClient= async ()=>{
 
     const result  = await client.getCodeSandboxURL();
     if(action?.actionType=='deploy'){
-      window.open('https://'+ +'.csb.app/');
-    }
-    console.log("result:", result);
+      window.open('https://'+ result?.sandboxId+'.csb.app/');
+    }else if(action?.actionType=='export'){
+
+      window?.open(result?.editorUrl)
+    } 
+    console.log("result:" , result);
 
 
   }

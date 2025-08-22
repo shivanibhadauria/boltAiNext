@@ -19,6 +19,8 @@ import { useParams } from "next/navigation";
 import { countTokens } from "./Chatview";
 import {UserContext} from "@/context/UserContext";
 import SandpackPreviewClient from "./SandpackPreviewClient";
+import { ActionContext } from "@/context/ActionContext";
+
 
 const Codeview = () => {
   const {id} = useParams();
@@ -27,6 +29,7 @@ const Codeview = () => {
   const [ files , setFiles ] = useState(Lookup?.DEFAULT_FILE);
   const UpdateFiles  = useMutation(api.workspace.updateFiles);
   const { userDetail , setUserDetail } = useContext(UserContext);
+  const {action, setAction} = useContext(ActionContext);
 
   const convex = useConvex();
   const [loading, setLoading] = useState(false);
@@ -36,6 +39,10 @@ const Codeview = () => {
   useEffect(() => {
     id&&getFiles();
   }, [id]);
+
+  useEffect(() =>{
+    setActive("preview");
+  },[action]);
   const getFiles = async () => {
     setLoading(true);
    const result = await convex.query(api.workspace.Getworkspace, {
