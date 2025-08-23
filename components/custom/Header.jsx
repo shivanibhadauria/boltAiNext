@@ -30,15 +30,19 @@ const onAction = (action) => {
          
         </div>
       )}
-      <div className=" flex gap-2 " >
-        <Button onClick={()=>onAction('export')}  > {<Download/>} Export</Button>
-        <Button onClick={()=>onAction('deploy')} variant='outline' >  {<Rocket/>} Deploy</Button>
-     
+      {userDetail && 
+       <div className=" flex gap-2 " >
+       <Button onClick={()=>onAction('export')}  > {<Download/>} Export</Button>
+       <Button onClick={()=>onAction('deploy')} variant='outline' >  {<Rocket/>} Deploy</Button>
+    
 
 { userDetail&& <Image onClick={toggleSidebar}  src={userDetail?.picture} alt="user" width={30} height={30} className=" rounded-full cursor-pointer "  ></Image>}
 
 
-      </div>
+     </div>
+
+      }
+     
 
     </div>
   );
