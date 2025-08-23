@@ -6,6 +6,8 @@ import { UserContext } from '@/context/UserContext';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { UpdateTokens } from '@/convex/users';
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+
 
 const PricingModel = () => {
     const {userDetail, setUserDetail} = useContext(UserContext);
@@ -26,6 +28,7 @@ const PricingModel = () => {
     }
 
   return (
+    <PayPalScriptProvider options={{ "client-id": process.NEXT_PUBLIC_PAYPAL_CLIENT_ID }}>
     <div className='mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'  >
         {Lookup.PRICING_OPTIONS.map((pricing, index) => {
          
@@ -61,7 +64,7 @@ const PricingModel = () => {
           )
           
         })}
-    </div>
+    </div></PayPalScriptProvider>
   )
 }
 
