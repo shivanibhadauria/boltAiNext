@@ -7,7 +7,7 @@ export async function POST(request) {
 
   try {
     const result = await GenAiCode.sendMessage(prompt);
-    const AIresp =  result.response.text();
+    const AIresp = result.response.text();
     console.log("Raw AI Response:",  result);
     return NextResponse.json( JSON.parse(AIresp) );
   } catch (error) {
