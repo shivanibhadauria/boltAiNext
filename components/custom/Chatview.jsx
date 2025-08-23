@@ -11,7 +11,7 @@ import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import { useSidebar } from "../ui/sidebar";
 import { toast } from "sonner";
-import {Prompt} from "@/app/data/Prompt";
+import Prompt from "@/app/data/Prompt";
 
 
 export const countTokens = (inputText) => {

@@ -9,7 +9,7 @@ import {
   SandpackProvider,
   SandpackLayout,
   SandpackCodeEditor,
-  SandpackPreview,
+  
 } from "@codesandbox/sandpack-react";
 import axios from "axios";
 import Lookup from "@/app/data/Lookup";
