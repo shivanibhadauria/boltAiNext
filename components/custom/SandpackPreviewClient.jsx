@@ -19,7 +19,7 @@ const GetSandpackClient= async ()=>{
  
   const client = previewRef.current?.getClient();
   if (client) {
-    console.log("client:", client);
+  
 
     const result  = await client.getCodeSandboxURL();
     if(action?.actionType=='deploy'){
@@ -28,7 +28,7 @@ const GetSandpackClient= async ()=>{
 
       window?.open(result?.editorUrl)
     } 
-    console.log("result:" , result);
+
 
 
   }

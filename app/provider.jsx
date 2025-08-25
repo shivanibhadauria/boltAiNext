@@ -54,7 +54,7 @@ const Provider = ({ children }) => {
 
    
       setUserDetail(result);
-      console.log("Convex Query Result:", result); 
+     
     }
   };
 

@@ -66,7 +66,7 @@ export const GetAllWorkspace = query({
     const result = all.filter(workspace => workspace.users.includes(args.userId))
       
 
-    console.log("🔍 Filtered workspaces:", result);
+    
 
     return result;
 

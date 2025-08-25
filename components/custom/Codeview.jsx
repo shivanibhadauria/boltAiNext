@@ -73,7 +73,7 @@ const PROMPT = lastUserMessage + "\n\n" + Prompt.CODE_PROMPT;
  const result = await axios.post("/api/ai-code" , {
   prompt: PROMPT,
  });
-  console.log("Raw AI Response:",  result.data);
+ 
   const AIresp =  result.data;
 const mergedFiles = { ...Lookup.DEFAULT_FILE, ...AIresp?.files};
 setFiles(mergedFiles);

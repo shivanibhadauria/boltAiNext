@@ -12,7 +12,12 @@ import { MessageCircleCode } from 'lucide-react';
 import { WorkspaceHistory } from './WorkspaceHistory';
 import SideBarFooter from './SideBarFooter';
 
+
 export const AppSideBar = () => {
+
+
+
+
   return (
     <Sidebar>
       <SidebarHeader  className="p-5" >

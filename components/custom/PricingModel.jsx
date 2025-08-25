@@ -19,7 +19,7 @@ const PricingModel = () => {
 
     const onPayementSuccess = async () => {
         const token = userDetail?.token + Number(selectedOption?.tokens);
-        console.log(token)
+        
         await updateToken({
             userId: userDetail?._id,
             token: token,
@@ -41,7 +41,7 @@ const PricingModel = () => {
               {/* <Button >Upgrade to {pricing.name}</Button> */}
               <PayPalButtons style={{ layout: "horizontal" }} 
               disabled={!userDetail}
-              onClick={()=> {setSelectedOption(pricing.value);console.log(pricing.value)}}
+              onClick={()=> {setSelectedOption(pricing.value);}}
               onApprove={() =>onPayementSuccess()}
               onCancel={() => console.log("payment cancelled")}
               

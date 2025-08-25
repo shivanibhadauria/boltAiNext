@@ -27,7 +27,7 @@ export const WorkspaceHistory = () => {
     })
 
     setWorkspaceList(result);
-    console.log(result);
+    
   }
 
   return (

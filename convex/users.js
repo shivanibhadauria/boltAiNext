@@ -15,7 +15,7 @@ export const CreateUser = mutation({
       .query("users")
       .filter((q) => q.eq(q.field("email"), args.email))
       .collect();
-    console.log(user);
+  
 
     if (user?.length == 0) {
       const result = await ctx.db.insert("users", {
@@ -25,7 +25,7 @@ export const CreateUser = mutation({
         uid: args.uid,
         token: 50000,
       });
-      console.log(result);
+      
     }
   },
 });
