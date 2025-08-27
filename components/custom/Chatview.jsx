@@ -108,11 +108,11 @@ const Chatview = () => {
 
     return (
         <div className="flex flex-col h-[600px] lg:h-full ">
-            <div className="flex-1 overflow-y-scroll scrollbar-hide  ">
+            <div className="flex-1 overflow-y-scroll scrollbar-hide text-sm w-full ">
                 {massage?.map((msg, index) => (
                     <div
                         key={index}
-                        className="flex items-center px-4 text-wrap  "
+                        className="flex items-center text-wrap  "
                     >
                         <div className="bg-pink-50 rounded-full">
                             {msg?.role === 'user' && (
@@ -125,7 +125,7 @@ const Chatview = () => {
                                 />
                             )}
                         </div>
-                        <div className="bg-gray-900 p-4 rounded-xl m-2 size-sm flex flex-col gap-4 overflow-hidden  ">
+                        <div className="bg-gray-900 p-4 rounded-xl m-2 size-sm flex flex-col gap-4 overflow-hidden w-full  ">
                             <ReactMarkdown>{msg.content}</ReactMarkdown>
                         </div>
                     </div>
@@ -141,8 +141,8 @@ const Chatview = () => {
                 )}
             </div>
 
-            <div className=" flex gap-2 items-end ">
-                {userDetail && (
+            <div className=" flex gap-2  text-sm items-center ">
+                {/* {userDetail && (
                     <Image
                         onClick={toggleSidebar}
                         src={userDetail?.picture}
@@ -151,7 +151,7 @@ const Chatview = () => {
                         height={30}
                         className=" rounded-full cursor-pointer "
                     ></Image>
-                )}
+                )} */}
                 <div className="relative mt-6 bg-white/5 rounded-xl w-full">
                     {userInput && (
                         <SquareChevronRight
