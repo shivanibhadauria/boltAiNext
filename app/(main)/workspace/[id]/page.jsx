@@ -4,8 +4,8 @@ import React from 'react';
 
 const workspace = () => {
     return (
-        <div className="p-3 pr-5 mt-3">
-            <div className=" grid grid-cols-3 gap-10  ">
+        <div className="pb-3 pr-5 min-h-screen  ">
+            <div className=" grid grid-cols-3 gap-10  h-full  ">
                 <Chatview />
 
                 <div className=" col-span-2 ">

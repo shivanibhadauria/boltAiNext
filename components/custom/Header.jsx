@@ -19,8 +19,9 @@ const Header = () => {
     };
 
     return (
-        <div className="flex items-center justify-between p-4">
-            <Image src={'/logo.png'} alt="logo " width={40} height={40} />
+        <div className="flex items-center justify-between pt-4  px-4   ">
+            <a href="/"><Image src={'/logo.png'} alt="logo " width={120} height={120}   /></a>
+            
 
             {!userDetail && (
                 <div className=" flex  gap-4 ">
@@ -49,8 +50,8 @@ const Header = () => {
                             onClick={toggleSidebar}
                             src={userDetail?.picture}
                             alt="user"
-                            width={30}
-                            height={30}
+                            width={35}
+                            height={25}
                             className=" rounded-full cursor-pointer "
                         ></Image>
                     )}
