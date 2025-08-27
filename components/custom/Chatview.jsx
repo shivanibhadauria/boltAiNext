@@ -118,7 +118,7 @@ const Chatview = () => {
                             {msg?.role === 'user' && (
                                 <Image
                                     className="rounded-full "
-                                    src={userDetail?.picture}
+                                    src={userDetail?.picture || null}
                                     alt="userImage"
                                     width={40}
                                     height={40}
