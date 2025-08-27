@@ -1,5 +1,5 @@
-import Hero from "../components/custom/Hero";
+import Hero from '../components/custom/Hero';
 
 export default function page() {
-  return <Hero />;
+    return <Hero />;
 }

@@ -1,52 +1,38 @@
-"use client";
-import React , {useRef , useEffect , useContext }  from 'react'
-import { SandpackPreview , useSandpack } from '@codesandbox/sandpack-react';
+'use client';
+import React, { useRef, useEffect, useContext } from 'react';
+import { SandpackPreview, useSandpack } from '@codesandbox/sandpack-react';
 import { ActionContext } from '@/context/ActionContext';
 
 const SandpackPreviewClient = () => {
+    const previewRef = useRef();
+    const { sandpack } = useSandpack();
+    const { action, setAction } = useContext(ActionContext);
 
-  const previewRef = useRef();
-const {sandpack} = useSandpack();
-const {action , setAction} = useContext(ActionContext);
+    useEffect(() => {
+        GetSandpackClient();
+    }, [sandpack && action]);
 
+    const GetSandpackClient = async () => {
+        const client = previewRef.current?.getClient();
+        if (client) {
+            const result = await client.getCodeSandboxURL();
+            if (action?.actionType == 'deploy') {
+                window.open('https://' + result?.sandboxId + '.csb.app/');
+            } else if (action?.actionType == 'export') {
+                window?.open(result?.editorUrl);
+            }
+        }
+    };
 
-useEffect(()=>{
-  GetSandpackClient();
-  
-}, [sandpack&&action])
+    return (
+        <>
+            <SandpackPreview
+                ref={previewRef}
+                style={{ height: '80vh' }}
+                showNavigator
+            />
+        </>
+    );
+};
 
-const GetSandpackClient= async ()=>{
- 
-  const client = previewRef.current?.getClient();
-  if (client) {
-  
-
-    const result  = await client.getCodeSandboxURL();
-    if(action?.actionType=='deploy'){
-      window.open('https://'+ result?.sandboxId+'.csb.app/');
-    }else if(action?.actionType=='export'){
-
-      window?.open(result?.editorUrl)
-    } 
-
-
-
-  }
- 
-
-}
-  
-  
-  return (
-    <>
-     <SandpackPreview
-    ref={previewRef}
-    
-    style={{ height: "80vh" }} showNavigator />
-    
-    </>
-  )
-   
-}
-
-export default SandpackPreviewClient
+export default SandpackPreviewClient;
