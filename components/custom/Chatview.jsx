@@ -125,7 +125,7 @@ const Chatview = () => {
                                 />
                             )}
                         </div>
-                        <div className="bg-gray-900 p-4 rounded-xl m-2 size-sm flex flex-col gap-4 overflow-hidden w-full  ">
+                        <div className="bg-gray-900 p-4 rounded-xl m-2 size-sm xl:text-base  flex flex-col gap-4 overflow-hidden w-full  ">
                             <ReactMarkdown>{msg.content}</ReactMarkdown>
                         </div>
                     </div>
