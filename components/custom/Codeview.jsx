@@ -96,7 +96,7 @@ const Codeview = () => {
 
     return (
         <div className=" relative ">
-            <div className="w-full bg-[#181818] flex gap-2 h-16 items-center">
+            <div className="w-full bg-[#181818] flex gap-2 h-16 items-center justify-center sm:justify-start">
                 <div className="bg-slate-900 flex gap-4 ml-4 p-2 rounded-full">
                     <h1
                         onClick={() => setActive('code')}
