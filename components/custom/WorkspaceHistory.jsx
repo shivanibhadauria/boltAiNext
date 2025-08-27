@@ -13,15 +13,14 @@ export const WorkspaceHistory = () => {
 
     useEffect(() => {
         if (userDetail) {
-            GetAllWorkspace();
+            GetAllWorkspaceMain();
         }
     }, [userDetail]);
 
-    const GetAllWorkspace = async () => {
+    const GetAllWorkspaceMain = async () => {
         const result = await convex.query(api.workspace.GetAllWorkspace, {
             userId: userDetail?._id,
         });
-
         setWorkspaceList(result);
     };
 

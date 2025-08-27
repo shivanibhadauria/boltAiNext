@@ -25,6 +25,7 @@ export const CreateUser = mutation({
                 token: 50000,
             });
         }
+        return user
     },
 });
 

@@ -47,8 +47,8 @@ const Provider = ({ children }) => {
             const result = await convex.query(api.users.GetUser, {
                 email: user?.email,
             });
-
             setUserDetail(result);
+            localStorage.setItem('user', JSON.stringify(result));
         }
     };
 

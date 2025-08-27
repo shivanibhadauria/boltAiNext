@@ -55,14 +55,13 @@ export const updateFiles = mutation({
 });
 
 export const GetAllWorkspace = query({
-    args: {
-        userId: v.id('users'),
-    },
-    handler: async (ctx, args) => {
+    // args: { userId: v.id("users") },
+    handler: async (ctx) => {
+        const userDetails = localStorage.getItem('user');
+        const parsedUser = JSON.parse(userDetails);
         const all = await ctx.db.query('workspace').collect();
-
         const result = all.filter((workspace) =>
-            workspace.users.includes(args.userId),
+            workspace.users.includes(parsedUser._id),
         );
 
         return result;
