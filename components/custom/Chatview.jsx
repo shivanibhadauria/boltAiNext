@@ -107,7 +107,7 @@ const Chatview = () => {
     };
 
     return (
-        <div className="flex flex-col h-[600px]">
+        <div className="flex flex-col h-[600px] lg:h-full ">
             <div className="flex-1 overflow-y-scroll scrollbar-hide  ">
                 {massage?.map((msg, index) => (
                     <div
