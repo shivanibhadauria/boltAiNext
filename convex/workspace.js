@@ -1,6 +1,9 @@
+
+
 import workspace from '@/app/(main)/workspace/[id]/page';
 import { mutation, query } from './_generated/server';
 import { v } from 'convex/values';
+
 
 export const createWorkSpace = mutation({
     args: v.object({
@@ -54,16 +57,31 @@ export const updateFiles = mutation({
     },
 });
 
-export const GetAllWorkspace = query({
-    // args: { userId: v.id("users") },
-    handler: async (ctx) => {
-        const userDetails = localStorage.getItem('user');
-        const parsedUser = JSON.parse(userDetails);
-        const all = await ctx.db.query('workspace').collect();
-        const result = all.filter((workspace) =>
-            workspace.users.includes(parsedUser._id),
-        );
+// export const GetAllWorkspace = query({
+//     // args: { userId: v.id("users") },
+//     handler: async (ctx) => {
+      
+//         const userDetails = localStorage.getItem('user');
+       
+//         const parsedUser = JSON.parse(userDetails);
+//         const all = await ctx.db.query('workspace').collect();
+//         const result = all.filter((workspace) =>
+//             workspace.users.includes(parsedUser._id),
+//         );
 
-        return result;
+//         return result;
+//     },
+// });
+
+export const GetAllWorkspace = query({
+    args: { userId: v.string() },  // ✅ accept userId as input
+    handler: async (ctx, args) => {
+      const all = await ctx.db.query("workspace").collect();
+  
+      const result = all.filter((workspace) =>
+        workspace.users.includes(args.userId)
+      );
+  
+      return result;
     },
-});
+  });
